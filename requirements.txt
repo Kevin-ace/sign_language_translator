@@ -1,0 +1,6 @@
+flask
+mediapipe
+tensorflow
+opencv-python
+numpy
+python-dotenv

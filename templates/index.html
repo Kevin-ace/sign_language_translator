@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Language Translator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sign Language Translator</h1>
+        </header>
+        
+        <main>
+            <div class="video-container">
+                <img id="videoFeed" src="{{ url_for('video_feed') }}" alt="Video feed">
+            </div>
+            
+            <div class="translation-container">
+                <div id="currentTranslation" class="current-translation">
+                    <h2>Current Translation</h2>
+                    <p id="translatedText">Waiting for signs...</p>
+                </div>
+                
+                <div id="translationHistory" class="translation-history">
+                    <h2>Translation History</h2>
+                    <div id="historyContent"></div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Status: <span id="status">Connected</span></p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
