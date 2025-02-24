@@ -5,6 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Language Translator</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .video-container {
+            margin-bottom: 20px;
+        }
+        .translation-container {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+        .feedback-container {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -28,6 +47,14 @@
                     <div id="historyContent"></div>
                 </div>
             </div>
+            
+            <div class="feedback-container">
+                <h2>Feedback</h2>
+                <form id="feedback-form">
+                    <input type="text" id="correct-translation" placeholder="Enter correct translation">
+                    <button type="submit">Submit Feedback</button>
+                </form>
+            </div>
         </main>
         
         <footer>
@@ -36,5 +63,50 @@
     </div>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const socket = io();
+            const translationText = document.getElementById('translatedText');
+            let currentGesture = '';
+            
+            socket.on('translation_update', function(data) {
+                translationText.textContent = data.text;
+                currentGesture = data.text;
+            });
+            
+            document.getElementById('feedback-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const correctTranslation = document.getElementById('correct-translation').value;
+                
+                if (correctTranslation) {
+                    fetch('/feedback', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            gesture: currentGesture,
+                            correct_translation: correctTranslation
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            alert('Feedback submitted successfully!');
+                        } else {
+                            alert('Error submitting feedback: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error submitting feedback');
+                    });
+                    
+                    document.getElementById('correct-translation').value = '';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

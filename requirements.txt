@@ -1,6 +1,8 @@
 flask
-mediapipe
-tensorflow
+flask-socketio
 opencv-python
+tensorflow
 numpy
+mediapipe
 python-dotenv
+SQLAlchemy
