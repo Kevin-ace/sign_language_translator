@@ -7,25 +7,64 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .video-container {
+        header {
+            text-align: center;
             margin-bottom: 20px;
         }
-        .translation-container {
+        nav {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            padding: 10px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+        }
+        nav a:hover {
+            background-color: #575757;
+        }
+        .video-container, .translation-container, .feedback-container {
+            margin-bottom: 20px;
+        }
+        .translation-container, .feedback-container {
             padding: 10px;
             border: 1px solid #ccc;
-            margin-bottom: 20px;
+            background-color: #fafafa;
         }
-        .feedback-container {
+        .feedback-container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .feedback-container input, .feedback-container button {
+            padding: 10px;
+            margin: 5px 0;
+        }
+        footer {
+            text-align: center;
             margin-top: 20px;
         }
     </style>
 </head>
 <body>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
     <div class="container">
         <header>
             <h1>Sign Language Translator</h1>
